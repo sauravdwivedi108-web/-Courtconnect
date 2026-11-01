@@ -302,7 +302,7 @@ function initHeroVisual() {
   if (!stage || slides.length < 2) return;
 
   let current = 0;
-  const INTERVAL = 4200;
+  const INTERVAL = 5000;
 
   /* auto-rotate with crossfade */
   setInterval(() => {

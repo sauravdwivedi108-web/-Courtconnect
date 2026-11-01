@@ -204,9 +204,9 @@ p { margin: 0 0 1rem; }
 
 /* ---------- Hero interactive visual (large auto-rotating stack) ---------- */
 .hero-visual {
-  position: absolute; top: 50%; right: 0;
+  position: absolute; top: 50%; right: -3%;
   transform: translateY(-50%);
-  width: 62%; max-width: 880px; aspect-ratio: 1/1;
+  width: 74%; max-width: 1020px; aspect-ratio: 1/1;
   pointer-events: none;
   perspective: 1000px;
   z-index: 1;
@@ -229,7 +229,7 @@ p { margin: 0 0 1rem; }
 .hero-visual .hv-slide.n1 img { transform: scale(1.04); }
 .hero-visual .hv-slide.n2 img { transform: scale(1.02) rotate(-1.5deg); }
 @media (max-width: 1080px) {
-  .hero-visual { width: 52%; }
+  .hero-visual { width: 60%; }
 }
 @media (max-width: 820px) {
   .hero-visual { display: none; }
