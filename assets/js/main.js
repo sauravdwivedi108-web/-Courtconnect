@@ -76,6 +76,7 @@ function renderFooter() {
         <a href="judgments-orders.html">Judgments &amp; Orders</a>
         <a href="drafting.html">Drafting Desk</a>
         <a href="education.html">Education</a>
+        <a href="download.html">Downloads</a>
         <a href="admin.html">Admin</a>
       </div>
     </div>
@@ -271,6 +272,25 @@ function escapeHtml(s) {
   }[ch]));
 }
 
+/* ---------- PWA hookup (manifest + service worker) ---------- */
+function initPwa() {
+  if (!document.querySelector('link[rel="manifest"]')) {
+    const link = document.createElement("link");
+    link.rel = "manifest";
+    link.href = "manifest.webmanifest";
+    document.head.appendChild(link);
+  }
+  if (!document.querySelector('meta[name="theme-color"]')) {
+    const meta = document.createElement("meta");
+    meta.name = "theme-color";
+    meta.content = "#0d2140";
+    document.head.appendChild(meta);
+  }
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => { /* offline enhancement only */ });
+  }
+}
+
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   initNav();
@@ -283,6 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initQuickSearch();
   initTheme();
   renderCustomTemplates();
+  initPwa();
 });
 function initQuickSearch() {
   const input = document.getElementById("quickSearchInput");
