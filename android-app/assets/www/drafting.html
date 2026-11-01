@@ -63,12 +63,17 @@
       </div>
 
       <div class="lib-bar">
-        <input class="lib-search" type="search" id="libSearch" placeholder="Search within a topic…" aria-label="Search drafts">
+        <select class="lib-select" id="libTopic" aria-label="Choose draft topic">
+          <option value="">All topics (55)</option>
+        </select>
+        <input class="lib-search" type="search" id="libSearch" placeholder="Search within topic…" aria-label="Search drafts">
+        <select class="lib-select" id="libSort" aria-label="Sort drafts">
+          <option value="az">A → Z</option>
+          <option value="za">Z → A</option>
+        </select>
         <span class="lib-count" id="libCount"></span>
       </div>
-
-      <div class="cat-chips" id="catChips" role="group" aria-label="Draft topics"></div>
-      <p class="disclaimer" id="libStatus">Select a topic above to browse its drafts.</p>
+      <p class="disclaimer" id="libStatus">Choose a topic above to browse its drafts.</p>
       <div class="draft-grid" id="draftGrid"></div>
 
       <div class="section-head" style="margin-top:64px">

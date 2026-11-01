@@ -535,6 +535,15 @@ tbody tr:hover td { background: #faf5e8; }
   padding: 10px 14px; border: 1.5px solid var(--line-dark); border-radius: 10px;
   font: inherit; background: #fffdf7; color: var(--ink);
 }
+.lib-select {
+  padding: 10px 12px; border: 1.5px solid var(--line-dark); border-radius: 10px;
+  font: 600 .9rem var(--font-sans); background: #fffdf7; color: var(--navy-800);
+  max-width: 320px; cursor: pointer;
+}
+[data-theme="dark"] .lib-search, [data-theme="dark"] .lib-select { background: #0f1929; border-color: var(--line-dark); color: var(--ink); }
+@media (max-width: 640px) {
+  .lib-select { max-width: 100%; width: 100%; }
+}
 [data-theme="dark"] .lib-search { background: #0f1929; border-color: var(--line-dark); color: var(--ink); }
 .lib-count { font-size: .85rem; color: var(--ink-soft); white-space: nowrap; }
 

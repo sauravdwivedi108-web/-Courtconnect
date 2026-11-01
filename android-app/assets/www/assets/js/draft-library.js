@@ -1,6 +1,6 @@
 /* ============================================================
    CourtConnect — Draft Library (2000+ legal drafts)
-   Filter by topic → open → edit → copy / download original.
+   Filter via topic dropdown + search + sort → open/ edit / copy / download.
    Data: assets/drafts/<slug>.json (lazy-loaded) + catalog JS.
    ============================================================ */
 "use strict";
@@ -9,9 +9,8 @@
   if (typeof window.DRAFTS_CATALOG === "undefined") return;
   const catalog = window.DRAFTS_CATALOG;
 
-  const state = { slug: null, drafts: [], query: "" };
+  const state = { slug: "", drafts: [], query: "", sort: "az" };
 
-  /* ---------- helpers ---------- */
   const $ = (id) => document.getElementById(id);
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, (ch) => ({
@@ -19,20 +18,14 @@
     }[ch]));
   }
 
-  /* ---------- render category chips ---------- */
-  function renderChips() {
-    const wrap = $("catChips");
-    if (!wrap) return;
-    wrap.innerHTML =
-      '<button type="button" class="chip cat-chip" data-slug="" style="cursor:pointer">All topics</button>' +
-      catalog.map((c) =>
-        `<button type="button" class="chip cat-chip" data-slug="${c.slug}" style="cursor:pointer">${escapeHtml(c.title)} <span class="chip-count">${c.count}</span></button>`
-      ).join("");
-    wrap.addEventListener("click", (e) => {
-      const chip = e.target.closest(".cat-chip");
-      if (!chip) return;
-      setCategory(chip.dataset.slug);
-    });
+  /* ---------- populate topic dropdown ---------- */
+  function initTopicSelect() {
+    const sel = $("libTopic");
+    if (!sel) return;
+    sel.innerHTML =
+      '<option value="">All topics (' + catalog.length + ')</option>' +
+      catalog.map((c) => `<option value="${c.slug}">${escapeHtml(c.title)} (${c.count})</option>`).join("");
+    sel.addEventListener("change", () => setCategory(sel.value));
   }
 
   /* ---------- category selection ---------- */
@@ -42,18 +35,12 @@
     const search = $("libSearch");
     if (search) search.value = "";
 
-    document.querySelectorAll(".cat-chip").forEach((ch) => {
-      const on = ch.dataset.slug === slug;
-      ch.classList.toggle("active", on);
-    });
-
-    const grid = $("draftGrid");
     const status = $("libStatus");
     if (!slug) {
       state.drafts = [];
-      if (grid) grid.innerHTML = "";
-      if (status) status.textContent = "Select a topic above to browse its drafts.";
+      if (status) status.textContent = "Choose a topic above to browse its drafts.";
       $("libCount").textContent = "";
+      renderGrid();
       return;
     }
     if (status) status.textContent = "Loading…";
@@ -63,20 +50,31 @@
       const data = await res.json();
       state.drafts = data.drafts || [];
       if (status) status.textContent = "";
-      $("libCount").textContent = data.category + " — " + state.drafts.length + " drafts";
+      updateCount();
       renderGrid();
     } catch (err) {
       if (status) status.textContent = "Could not load this topic (" + err.message + ").";
     }
   }
 
-  /* ---------- filter + grid ---------- */
+  /* ---------- filter + sort ---------- */
   function visibleDrafts() {
     const q = state.query.toLowerCase();
-    if (!q) return state.drafts;
-    return state.drafts.filter((d) =>
-      (d.title + " " + (state.slug || "")).toLowerCase().includes(q)
-    );
+    let list = state.drafts;
+    if (q) {
+      list = list.filter((d) => d.title.toLowerCase().includes(q));
+    }
+    const sorted = list.slice();
+    if (state.sort === "az") sorted.sort((a, b) => a.title.localeCompare(b.title));
+    else sorted.sort((a, b) => b.title.localeCompare(a.title));
+    return sorted;
+  }
+
+  function updateCount() {
+    const count = $("libCount");
+    if (!count) return;
+    const total = state.slug ? (catalog.find(c => c.slug === state.slug) || {}).count : catalog.reduce((n, c) => n + c.count, 0);
+    count.textContent = state.slug + " — " + visibleDrafts().length + " / " + total + " drafts";
   }
 
   function renderGrid() {
@@ -99,12 +97,12 @@
     });
   }
 
-  /* ---------- viewer modal (edit / copy / download) ---------- */
+  /* ---------- viewer modal ---------- */
   function openViewer(draft) {
     const modal = $("draftModal");
     if (!modal) return;
     $("dmTitle").textContent = draft.title;
-    $("dmMeta").textContent = state.slug ? (catalog.find(c => c.slug === state.slug) || {}).title : "" + " · " + draft.file;
+    $("dmMeta").textContent = (state.slug ? (catalog.find(c => c.slug === state.slug) || {}).title : "Library") + " · " + draft.file;
     const ta = $("dmText");
     ta.value = draft.text || "";
     const dl = $("dmDownload");
@@ -142,17 +140,23 @@
 
   /* ---------- init ---------- */
   function init() {
-    renderChips();
+    initTopicSelect();
 
     const search = $("libSearch");
     if (search) {
       search.addEventListener("input", () => {
         state.query = search.value.trim();
-        const count = $("libCount");
-        if (count && state.slug) {
-          count.textContent = (catalog.find(c => c.slug === state.slug) || {}).title + " — " + visibleDrafts().length + " drafts";
-        }
+        updateCount();
         renderGrid();
+      });
+    }
+
+    const sort = $("libSort");
+    if (sort) {
+      sort.addEventListener("change", () => {
+        state.sort = sort.value;
+        renderGrid();
+        updateCount();
       });
     }
 
