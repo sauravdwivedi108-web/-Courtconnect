@@ -9,9 +9,20 @@ import { join, relative } from "node:path";
 
 const root = process.argv[2];
 const out = process.argv[3];
+const execListFile = process.argv[4];
 if (!root || !out) {
-  console.error("usage: node tools/cpio.mjs <rootDir> <outFile>");
+  console.error("usage: node tools/cpio.mjs <rootDir> <outFile> [execList]");
   process.exit(1);
+}
+
+const execSet = new Set();
+if (execListFile) {
+  const fs = await import("node:fs");
+  const list = fs.readFileSync(execListFile, "utf8");
+  for (const line of list.split("\n")) {
+    const p = line.trim();
+    if (p) execSet.add(p.replace(/\\/g, "/"));
+  }
 }
 
 const pad4 = (n) => (4 - (n % 4)) % 4;
@@ -55,7 +66,8 @@ let ino = 1;
 for (const f of files) {
   const st = await lstat(f.full);
   const isLink = st.isSymbolicLink();
-  const mode = f.dir ? 0o40755 : isLink ? 0o120777 : 0o100644;
+  const execFile = !f.dir && !isLink && execSet.has(f.rel);
+  const mode = f.dir ? 0o40755 : isLink ? 0o120777 : execFile ? 0o100755 : 0o100644;
   let data = Buffer.alloc(0);
   if (isLink) {
     data = Buffer.from(await readFile(f.full, "utf8"), "utf8");
