@@ -2,5 +2,5 @@
 <resources>
     <string name="app_name">CourtConnect</string>
     <!-- Live URL; replace when the production domain is final -->
-    <string name="app_url">https://instant-koto-4cqjp8g.tmp.now</string>
+    <string name="app_url">https://courtconnect-rho.vercel.app</string>
 </resources>

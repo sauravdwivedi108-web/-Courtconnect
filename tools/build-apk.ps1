@@ -18,6 +18,10 @@ if (-not $JdkDir -or -not $SdkDir) {
   exit 1
 }
 
+# ensure java is on PATH for .bat wrappers (d8 / apksigner)
+$env:JAVA_HOME = $JdkDir
+$env:Path = (Join-Path $JdkDir "bin") + ";" + $env:Path
+
 $Root = Split-Path -Parent $PSScriptRoot
 $App  = Join-Path $Root "android-app"
 $BT   = Join-Path $SdkDir "build-tools/34.0.0"
@@ -46,18 +50,23 @@ New-Item -ItemType Directory -Force -Path $Work | Out-Null
 # 1) compile resources
 & $aapt2 compile --dir (Join-Path $App "res") -o (Join-Path $Work "compiled.flata")
 
-# 2) link resources + manifest
+# 2) link resources + manifest (also emit R.java)
+$Gen = Join-Path $Work "gen"
+New-Item -ItemType Directory -Force -Path $Gen | Out-Null
 & $aapt2 link `
   -o (Join-Path $Work "base-unsigned.apk") `
   -I $AndroidJar `
   --manifest (Join-Path $App "AndroidManifest.xml") `
   -R (Join-Path $Work "compiled.flata") `
+  --java $Gen `
   --auto-add-overlay
 
-# 3) compile java
+# 3) compile java (+ generated R.java)
 $Classes = Join-Path $Work "classes"
 New-Item -ItemType Directory -Force -Path $Classes | Out-Null
-& $javac -encoding UTF-8 -source 1.8 -target 1.8 -classpath $AndroidJar -d $Classes (Get-ChildItem (Join-Path $App "src") -Recurse -Filter *.java | ForEach-Object FullName)
+$Sources = @(Get-ChildItem (Join-Path $App "src") -Recurse -Filter *.java | ForEach-Object FullName)
+$Sources += @(Get-ChildItem $Gen -Recurse -Filter *.java | ForEach-Object FullName)
+& $javac -encoding UTF-8 -source 1.8 -target 1.8 -classpath $AndroidJar -d $Classes $Sources
 
 # 4) dex
 & $d8 --release --lib $AndroidJar --output $Work (Get-ChildItem $Classes -Recurse -Filter *.class | ForEach-Object FullName)
