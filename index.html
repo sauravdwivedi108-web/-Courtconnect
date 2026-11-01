@@ -60,13 +60,6 @@
           <a class="btn btn-outline" href="education.html" style="border-color:rgba(255,255,255,.35);color:#fff">Education Area</a>
         </div>
 
-        <div class="hero-search" role="search">
-          <span aria-hidden="true" style="color:var(--gold-300)">🔍</span>
-          <input type="search" id="quickSearchInput" placeholder="Search for cases, drafts, or Bare Acts…" aria-label="Search services">
-          <button class="btn btn-primary btn-sm" type="submit" onclick="document.getElementById('quickSearchInput').focus()">Search</button>
-        </div>
-        <div class="quick-search-results" id="quickSearchResults" aria-live="polite"></div>
-
         <div class="hero-stats">
           <div class="stat"><b>25</b><span>Official portals linked</span></div>
           <div class="stat"><b>11</b><span>Delhi district courts</span></div>
@@ -75,9 +68,24 @@
         </div>
       </div>
 
-      <div class="hero-visual" id="heroVisual" aria-hidden="true" style="display:none">
-        <div class="hv-stage" id="hvStage">
-          <div class="hv-slide active n2"><img src="assets/hero/2_2202_m01_i018_n006.png" alt=""></div>
+      <div class="hero-search-panel">
+        <span class="eyebrow">Quick search</span>
+        <h2 class="panel-title">Find any service, draft or judgment</h2>
+
+        <div class="hero-search hero-search-lg" role="search">
+          <span class="hs-icon" aria-hidden="true">🔍</span>
+          <input type="search" id="quickSearchInput" placeholder="Search for cases, drafts, or Bare Acts…" aria-label="Search services" autocomplete="off">
+          <button class="btn btn-primary btn-sm" id="searchGo" type="button">Search</button>
+        </div>
+        <div class="quick-search-results" id="quickSearchResults" aria-live="polite"></div>
+
+        <div class="search-hints">
+          <span class="sh-label">Popular:</span>
+          <button type="button" class="chip sh-chip" data-q="bail">⚖ Bail</button>
+          <button type="button" class="chip sh-chip" data-q="court fees">🧮 Court fees</button>
+          <button type="button" class="chip sh-chip" data-q="viva">🎓 Viva</button>
+          <button type="button" class="chip sh-chip" data-q="agreement">📄 Agreement</button>
+          <button type="button" class="chip sh-chip" data-q="case status">⚖️ Case Status</button>
         </div>
       </div>
     </div>

@@ -370,23 +370,94 @@ function initQuickSearch() {
   const box = document.getElementById("quickSearchResults");
   if (!input || !box || typeof SEARCH_INDEX === "undefined") return;
 
-  input.addEventListener("input", () => {
-    const q = input.value.trim().toLowerCase();
-    if (q.length < 2) { box.classList.remove("open"); box.innerHTML = ""; return; }
-    const hits = SEARCH_INDEX
-      .filter((s) => (s.t + " " + s.c + " " + s.d).toLowerCase().includes(q))
-      .slice(0, 7);
-    box.innerHTML = hits.map((h) => `
-      <a class="qr-card" href="${h.u}" ${h.u.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>
+  let items = [];
+  let activeIdx = -1;
+
+  function renderHits(q) {
+    const query = q.trim().toLowerCase();
+    if (query.length < 2) { box.classList.remove("open"); box.innerHTML = ""; items = []; activeIdx = -1; return; }
+    items = SEARCH_INDEX
+      .filter((s) => (s.t + " " + s.c + " " + s.d).toLowerCase().includes(query))
+      .slice(0, 8);
+    activeIdx = -1;
+    if (!items.length) {
+      box.innerHTML = `<div class="qr-card"><span>No matches for “${q}”. Try “bail”, “cause list”, “viva”…</span></div>`;
+      box.classList.add("open");
+      return;
+    }
+    box.innerHTML = items.map((h, i) => `
+      <a class="qr-card" href="${h.u}" data-i="${i}" ${h.u.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>
         <span>
           <span class="qr-tag">${h.c}</span>
           <b>${h.t}</b>
           <span>${h.d}</span>
         </span>
-      </a>`).join("") || `<div class="qr-card"><span>No matches for “${input.value}”. Try “bail”, “cause list”, “viva”…</span></div>`;
+        <span class="qr-go" aria-hidden="true">↗</span>
+      </a>`).join("");
     box.classList.add("open");
+  }
+
+  function setActive(i) {
+    const cards = box.querySelectorAll(".qr-card");
+    if (!cards.length) return;
+    activeIdx = Math.max(0, Math.min(i, cards.length - 1));
+    cards.forEach((c, ci) => c.classList.toggle("active", ci === activeIdx));
+    cards[activeIdx].scrollIntoView({ block: "nearest" });
+  }
+
+  function commitActive() {
+    const cards = box.querySelectorAll(".qr-card");
+    if (activeIdx >= 0 && cards[activeIdx]) {
+      cards[activeIdx].click();
+      return true;
+    }
+    return false;
+  }
+
+  input.addEventListener("input", () => renderHits(input.value));
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") { e.preventDefault(); setActive(activeIdx + 1); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); setActive(activeIdx - 1); }
+    else if (e.key === "Enter") {
+      if (commitActive()) e.preventDefault();
+      else if (input.value.trim()) {
+        const first = box.querySelector(".qr-card");
+        if (first) { first.click(); e.preventDefault(); }
+      }
+    }
+    else if (e.key === "Escape") { box.classList.remove("open"); input.blur(); }
   });
+
+  box.addEventListener("click", (e) => {
+    const card = e.target.closest(".qr-card");
+    if (card && card.href) {
+      e.preventDefault();
+      window.open(card.href, card.target === "_blank" ? "_blank" : "_self");
+    }
+  });
+
   document.addEventListener("click", (e) => {
     if (!box.contains(e.target) && e.target !== input) box.classList.remove("open");
   });
+
+  document.querySelectorAll(".sh-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const q = chip.dataset.q || "";
+      input.value = q;
+      input.focus();
+      renderHits(q);
+    });
+  });
+
+  const go = document.getElementById("searchGo");
+  if (go) {
+    go.addEventListener("click", () => {
+      if (!commitActive()) {
+        const first = box.querySelector(".qr-card");
+        if (first) first.click();
+        else input.focus();
+      }
+    });
+  }
 }
