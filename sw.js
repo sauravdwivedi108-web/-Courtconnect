@@ -20,6 +20,7 @@ const CORE = [
   "./assets/js/data.js",
   "./assets/js/main.js",
   "./assets/js/admin.js",
+  "./assets/js/drafts-catalog.js",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png"
 ];

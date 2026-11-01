@@ -55,6 +55,28 @@
 
   <section class="section">
     <div class="container" id="draftRoot">
+
+      <div class="section-head">
+        <span class="eyebrow">Draft library</span>
+        <h2>2000+ Legal Drafts</h2>
+        <p>Browse by topic, open a draft, edit it right here, then copy or download the original file (RTF / DOCX).</p>
+      </div>
+
+      <div class="lib-bar">
+        <input class="lib-search" type="search" id="libSearch" placeholder="Search within a topic…" aria-label="Search drafts">
+        <span class="lib-count" id="libCount"></span>
+      </div>
+
+      <div class="cat-chips" id="catChips" role="group" aria-label="Draft topics"></div>
+      <p class="disclaimer" id="libStatus">Select a topic above to browse its drafts.</p>
+      <div class="draft-grid" id="draftGrid"></div>
+
+      <div class="section-head" style="margin-top:64px">
+        <span class="eyebrow">Quick templates</span>
+        <h2>Ready-to-use examples</h2>
+        <p>The hand-crafted templates below complement the library above.</p>
+      </div>
+
       <div class="callout callout-danger">
         <strong>Important disclaimer:</strong> these are educational drafting aids, not legal advice. Court formats and rules vary by jurisdiction and are frequently revised (e.g., the 2023 criminal codes). Always confirm the correct form, stamp paper, court fees and section references for your jurisdiction before filing.
       </div>
@@ -1074,10 +1096,33 @@ Schedule 1 — Description of Works / Drawings</div>
   </section>
 </main>
 
+<!-- Draft viewer modal -->
+<div class="lib-modal-backdrop" id="draftModal" role="dialog" aria-modal="true" aria-labelledby="dmTitle">
+  <div class="lib-modal">
+    <div class="lib-modal-head">
+      <div style="flex:1">
+        <h3 id="dmTitle">Draft</h3>
+        <div class="dm-meta" id="dmMeta"></div>
+      </div>
+      <button class="modal-close" id="dmClose" aria-label="Close">✕</button>
+    </div>
+    <div class="lib-modal-body">
+      <textarea id="dmText" spellcheck="false" aria-label="Draft text (editable)"></textarea>
+      <div class="lib-modal-actions">
+        <button class="btn btn-primary" id="dmCopy" type="button">Copy text</button>
+        <a class="btn btn-navy" id="dmDownload" href="#" download>⬇ Download original</a>
+        <button class="btn btn-outline" id="dmClose2" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <footer class="site-footer" id="siteFooter"></footer>
 <button class="back-top" id="backTop" aria-label="Back to top">↑</button>
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/drafts-catalog.js"></script>
+<script src="assets/js/draft-library.js"></script>
 </body>
 </html>
