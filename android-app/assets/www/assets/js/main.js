@@ -291,6 +291,57 @@ function initPwa() {
   }
 }
 
+/* ---------- Hero interactive visual: mouse parallax ---------- */
+function initHeroVisual() {
+  const visual = document.getElementById("heroVisual");
+  if (!visual || typeof window.matchMedia === "undefined") return;
+  if (window.matchMedia("(max-width: 820px)").matches) return;
+
+  const layers = Array.from(visual.querySelectorAll(".hv-inner"));
+  const depths = [22, 46, 80]; /* forward depth per layer */
+  let tx = 0, ty = 0, targetX = 0, targetY = 0, ticking = false;
+
+  function apply() {
+    layers.forEach((el, i) => {
+      const d = depths[i];
+      const rotateY = targetX * 7 * (d / 80);
+      const rotateX = -targetY * 5 * (d / 80);
+      el.style.transform =
+        `translate3d(${tx * d}px, ${ty * d * 0.7}px, 0) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+    });
+  }
+
+  function tick() {
+    tx += (targetX - tx) * 0.12;
+    ty += (targetY - ty) * 0.12;
+    apply();
+    if (Math.abs(targetX - tx) > 0.001 || Math.abs(targetY - ty) > 0.001) {
+      setTimeout(tick, 16);
+    } else {
+      ticking = false;
+      tx = targetX; ty = targetY;
+      apply();
+    }
+  }
+
+  function start() {
+    if (!ticking) { ticking = true; setTimeout(tick, 16); }
+  }
+
+  const hero = visual.closest(".hero");
+  if (hero) {
+    hero.addEventListener("mousemove", (e) => {
+      const r = hero.getBoundingClientRect();
+      targetX = ((e.clientX - r.left) / r.width - 0.5) * 2;   /* -1..1 */
+      targetY = ((e.clientY - r.top) / r.height - 0.5) * 2;  /* -1..1 */
+      start();
+    });
+    hero.addEventListener("mouseleave", () => {
+      targetX = 0; targetY = 0; start();
+    });
+  }
+}
+
 /* ---------- Init ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   initNav();
@@ -304,6 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   renderCustomTemplates();
   initPwa();
+  initHeroVisual();
 });
 function initQuickSearch() {
   const input = document.getElementById("quickSearchInput");
