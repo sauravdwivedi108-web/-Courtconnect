@@ -61,6 +61,9 @@ New-Item -ItemType Directory -Force -Path $Gen | Out-Null
   --java $Gen `
   --auto-add-overlay
 
+# Add bundled website assets (jar normalizes separators to forward slashes)
+& $jar uf (Join-Path $Work "base-unsigned.apk") -C (Join-Path $App "assets") www
+
 # 3) compile java (+ generated R.java)
 $Classes = Join-Path $Work "classes"
 New-Item -ItemType Directory -Force -Path $Classes | Out-Null

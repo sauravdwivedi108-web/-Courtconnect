@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CourtConnect</string>
-    <!-- Live URL; replace when the production domain is final -->
-    <string name="app_url">https://courtconnect-rho.vercel.app</string>
+    <!-- Bundled offline app – no network needed. -->
+    <string name="app_url">file:///android_asset/www/index.html</string>
 </resources>

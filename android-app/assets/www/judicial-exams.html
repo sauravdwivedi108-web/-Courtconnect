@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Judicial Services — Prelims, Mains &amp; Viva — CourtConnect</title>
+<meta name="description" content="Judicial services examination preparation: preliminary exam pattern and sample MCQs, mains examination papers and answer-writing tips, and viva-voce questions with model answers.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230d2140'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23d8b35a' font-family='Georgia'%3E%26%2398770;%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="topbar">
+  <div class="container">
+    <span>Delhi Judicial Service · State Judicial Services</span>
+    <span class="tb-links"><a href="education.html">← Education</a></span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html" aria-label="CourtConnect home">
+      <span class="brand-mark" aria-hidden="true">⚖</span>
+      <span class="brand-text"><strong>CourtConnect</strong><span>Legal Services Hub</span></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Menu">☰</button>
+    <nav class="main-nav" id="mainNav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="district-courts.html">District Courts</a>
+      <a href="high-court.html">High Court</a>
+      <a href="supreme-court.html">Supreme Court</a>
+      <a href="education.html" class="active">Education</a>
+      <a href="drafting.html">Drafting Desk</a>
+      <a href="judgments-orders.html" class="nav-cta">Judgments &amp; Orders</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="education.html">Education</a> / Judicial Services</nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Three stages · one track</span>
+      <h1>Judicial Services Examination</h1>
+      <p class="lead">Preliminary exam → Mains examination → Viva-voce. Below: the pattern, subject weightage, sample questions and model viva answers for the Delhi Judicial Service and similar state judicial services.</p>
+    </div>
+  </section>
+
+  <!-- PRELIM -->
+  <section class="section" id="prelim">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Stage 01 · Screening</span>
+        <h2>Preliminary Examination</h2>
+        <p id="prelimIntro"></p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="feature-card fade-up">
+          <h3>Subject-wise coverage</h3>
+          <ul class="tag-list" id="prelimSubjects"></ul>
+        </div>
+        <div class="feature-card fade-up">
+          <h3>Strategy tips</h3>
+          <ul class="tag-list" id="prelimTips"></ul>
+        </div>
+      </div>
+
+      <div class="section-head" style="margin-top:48px">
+        <h3>Sample MCQs (practice)</h3>
+        <p>Tap a question to reveal its answer.</p>
+      </div>
+      <div id="prelimMcq"></div>
+    </div>
+  </section>
+
+  <!-- MAINS -->
+  <section class="section section-alt" id="mains">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Stage 02 · Descriptive</span>
+        <h2>Mains Examination</h2>
+        <p id="mainsIntro"></p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Paper</th><th scope="col">What it tests</th></tr></thead>
+          <tbody id="mainsPapers"></tbody>
+        </table>
+      </div>
+      <div class="feature-card fade-up" style="margin-top:24px">
+        <h3>Answer-writing tips</h3>
+        <ul class="tag-list" id="mainsTips"></ul>
+      </div>
+      <div class="callout callout-navy" style="margin-top:24px">
+        Official notifications, previous-year papers and results are published by the High Court — <a href="https://delhihighcourt.nic.in/web/recruitment" target="_blank" rel="noopener">Delhi High Court recruitment page <span class="icon-ext"></span></a>.
+      </div>
+    </div>
+  </section>
+
+  <!-- VIVA -->
+  <section class="section" id="viva">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Stage 03 · Interview</span>
+        <h2>Viva-Voce Questions</h2>
+        <p>30+ commonly asked interview questions with concise model answers — grouped by theme.</p>
+      </div>
+      <div id="vivaList"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="siteFooter"></footer>
+<button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  /* PRELIM */
+  if (typeof PRELIM !== "undefined") {
+    document.getElementById("prelimIntro").textContent = PRELIM.intro;
+    document.getElementById("prelimSubjects").innerHTML = PRELIM.subjects.map(function (s) {
+      return "<li><span class='t-tag'>Subject</span>" + s + "</li>";
+    }).join("");
+    document.getElementById("prelimTips").innerHTML = PRELIM.tips.map(function (s) {
+      return "<li><span class='t-tag'>Tip</span>" + s + "</li>";
+    }).join("");
+
+    document.getElementById("prelimMcq").innerHTML = PRELIM.sample.map(function (mcq, i) {
+      return '<div class="acc"><button class="acc-head" aria-expanded="false">Q' + (i + 1) + '. ' + mcq.q + '</button>' +
+        '<div class="acc-body"><p>' + mcq.opts.map(function (o, oi) {
+          return '<span style="display:block;margin:2px 0">' + String.fromCharCode(65 + oi) + '. ' + o + '</span>';
+        }).join("") + '</p>' +
+        '<p><strong>Answer:</strong> ' + String.fromCharCode(65 + mcq.a) + ' — ' + mcq.opts[mcq.a] + '</p></div></div>';
+    }).join("");
+  }
+
+  /* MAINS */
+  if (typeof MAINS !== "undefined") {
+    document.getElementById("mainsIntro").textContent = MAINS.intro;
+    document.getElementById("mainsPapers").innerHTML = MAINS.papers.map(function (p) {
+      return "<tr><td><strong>" + p.p + "</strong></td><td>" + p.s + "</td></tr>";
+    }).join("");
+    document.getElementById("mainsTips").innerHTML = MAINS.tips.map(function (s) {
+      return "<li><span class='t-tag'>Tip</span>" + s + "</li>";
+    }).join("");
+  }
+
+  /* VIVA */
+  if (typeof VIVA !== "undefined") {
+    document.getElementById("vivaList").innerHTML = VIVA.map(function (v, i) {
+      return '<div class="acc"><button class="acc-head" aria-expanded="false"><span class="chip">' + v.cat + '</span> ' + v.q + '</button>' +
+        '<div class="acc-body"><p><strong>Model answer:</strong> ' + v.a + '</p></div></div>';
+    }).join("");
+  }
+});
+</script>
+</body>
+</html>

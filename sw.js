@@ -1,5 +1,5 @@
 /* CourtConnect service worker — offline-first cache */
-const CACHE = "courtconnect-v1";
+const CACHE = "courtconnect-v2";
 const CORE = [
   "./",
   "./index.html",

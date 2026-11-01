@@ -1,14 +1,14 @@
 /* ============================================================
    CourtConnect — Admin panel
-   Login, custom templates, custom judgments, password change.
-   Client-side demo auth (SHA-256 hash stored in localStorage).
+   Multi-user login (admin / anchal), custom templates, custom
+   judgments, password change. Client-side demo auth (SHA-256).
    ============================================================ */
 "use strict";
 
 (function () {
-  const PW_KEY = "cc_admin_pw";
-  const DEFAULT_PW = "admin123";
+  const USERS_KEY = "cc_admin_users";
   const SESSION_KEY = "cc_admin_session";
+  const DEFAULT_USERS = { admin: "admin123", anchal: "55555" };
 
   /* ---------- helpers ---------- */
   function $(id) { return document.getElementById(id); }
@@ -26,29 +26,31 @@
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     }[ch]));
   }
-  async function hashPw(s) {
+  /* Demo auth — passwords stored/compared in the browser only. */
+  function readUsers() {
     try {
-      if (crypto && crypto.subtle) {
-        const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
-        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+      const raw = localStorage.getItem(USERS_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") return parsed;
       }
-    } catch (e) { /* fall through */ }
-    /* fallback: FNV-1a (non-cryptographic, demo only) */
-    let h = 2166136261;
-    for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
-    return (h >>> 0).toString(16) + "-fnv1a";
+    } catch (e) { /* noop */ }
+    return null;
   }
-  function readStoredPw() {
-    try { return localStorage.getItem(PW_KEY); } catch (e) { return null; }
+  function storedUsers() {
+    return readUsers() || Object.assign({}, DEFAULT_USERS);
   }
-  function storePw(h) {
-    try { localStorage.setItem(PW_KEY, h); } catch (e) { /* noop */ }
+  function persistUsers(users) {
+    try { localStorage.setItem(USERS_KEY, JSON.stringify(users)); } catch (e) { /* noop */ }
   }
-  function isLoggedIn() {
-    try { return sessionStorage.getItem(SESSION_KEY) === "1"; } catch (e) { return false; }
+  function currentUser() {
+    try { return sessionStorage.getItem(SESSION_KEY) || ""; } catch (e) { return ""; }
   }
-  function setLoggedIn(v) {
-    try { v ? sessionStorage.setItem(SESSION_KEY, "1") : sessionStorage.removeItem(SESSION_KEY); } catch (e) { /* noop */ }
+  function setLoggedIn(user) {
+    try {
+      if (user) sessionStorage.setItem(SESSION_KEY, user);
+      else sessionStorage.removeItem(SESSION_KEY);
+    } catch (e) { /* noop */ }
   }
 
   /* ---------- views ---------- */
@@ -59,32 +61,23 @@
   function showPanel() {
     $("loginView").hidden = true;
     $("panelView").hidden = false;
+    const who = document.querySelector("#panelView .whoami");
+    if (who) who.textContent = "Logged in as: " + currentUser();
     renderLists();
   }
 
   /* ---------- login ---------- */
   async function tryLogin() {
+    const uname = $("loginUser").value.trim().toLowerCase();
     const pw = $("loginPw").value;
-    if (!pw) { msg($("loginMsg"), "Enter the password.", false); return; }
-    const h = await hashPw(pw);
-    const stored = readStoredPw();
-    if (!stored) {
-      if (h === await hashPw(DEFAULT_PW)) {
-        storePw(h);
-        setLoggedIn(true);
-        msg($("loginMsg"), ""); $("loginPw").value = "";
-        showPanel();
-      } else {
-        msg($("loginMsg"), "Wrong password.", false);
-      }
-      return;
-    }
-    if (h === stored) {
-      setLoggedIn(true);
+    if (!uname || !pw) { msg($("loginMsg"), "Enter both username and password.", false); return; }
+    const users = storedUsers();
+    if (users[uname] && users[uname] === pw) {
+      setLoggedIn(uname);
       msg($("loginMsg"), ""); $("loginPw").value = "";
       showPanel();
     } else {
-      msg($("loginMsg"), "Wrong password.", false);
+      msg($("loginMsg"), "Wrong username or password.", false);
     }
   }
 
@@ -193,16 +186,20 @@
 
   /* ---------- settings ---------- */
   async function changePassword() {
+    const user = currentUser();
+    if (!user) { msg($("pwMsg"), "Not logged in.", false); return; }
     const cur = $("curPw").value;
     const n1 = $("newPw").value;
     const n2 = $("newPw2").value;
     if (!cur || !n1) { msg($("pwMsg"), "Fill current and new password.", false); return; }
     if (n1.length < 6) { msg($("pwMsg"), "New password must be at least 6 characters.", false); return; }
     if (n1 !== n2) { msg($("pwMsg"), "New passwords do not match.", false); return; }
-    if (await hashPw(cur) !== (readStoredPw() || await hashPw(DEFAULT_PW))) {
+    const users = storedUsers();
+    if (users[user] !== cur) {
       msg($("pwMsg"), "Current password is incorrect.", false); return;
     }
-    storePw(await hashPw(n1));
+    users[user] = n1;
+    persistUsers(users);
     msg($("pwMsg"), "Password changed.", true);
     $("curPw").value = ""; $("newPw").value = ""; $("newPw2").value = "";
   }
@@ -217,12 +214,13 @@
   document.addEventListener("DOMContentLoaded", () => {
     $("loginBtn").addEventListener("click", tryLogin);
     $("loginPw").addEventListener("keydown", (e) => { if (e.key === "Enter") tryLogin(); });
+    $("loginUser").addEventListener("keydown", (e) => { if (e.key === "Enter") tryLogin(); });
     $("tplAddBtn").addEventListener("click", addTemplate);
     $("jAddBtn").addEventListener("click", addJudgment);
     $("changePwBtn").addEventListener("click", changePassword);
-    $("logoutBtn").addEventListener("click", () => { setLoggedIn(false); showLogin(); });
+    $("logoutBtn").addEventListener("click", () => { setLoggedIn(null); showLogin(); });
     initTabs();
     initDeletes();
-    if (isLoggedIn()) showPanel(); else showLogin();
+    if (currentUser() && readUsers()) showPanel(); else showLogin();
   });
 })();

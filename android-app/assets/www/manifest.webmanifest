@@ -1,0 +1,16 @@
+{
+  "name": "CourtConnect — Legal Services Hub",
+  "short_name": "CourtConnect",
+  "description": "The Modern Lawyer's Starting Point — official court services, judgments, drafting and judicial-prep.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf6ee",
+  "theme_color": "#0d2140",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

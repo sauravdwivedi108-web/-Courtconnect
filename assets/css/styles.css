@@ -577,3 +577,57 @@ tbody tr:hover td { background: #faf5e8; }
 }
 [data-theme="dark"] .lib-modal-body textarea { background: #0f1929; color: #dce6f4; border-color: var(--line-dark); }
 .lib-modal-actions { display: flex; gap: 10px; flex-wrap: wrap; padding-bottom: 18px; }
+
+/* ============================================================
+   Animated icons
+   ============================================================ */
+@keyframes ccFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes ccPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+@keyframes ccShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes ccSpinSlow {
+  to { transform: rotate(360deg); }
+}
+@keyframes ccGlow {
+  0%, 100% { text-shadow: 0 0 6px rgb(216 179 90 / .25); }
+  50% { text-shadow: 0 0 18px rgb(216 179 90 / .7); }
+}
+@keyframes ccWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-6deg); }
+  75% { transform: rotate(6deg); }
+}
+
+.svc-icon { animation: ccFloat 3.6s ease-in-out infinite; }
+.svc-card:nth-child(2n) .svc-icon { animation-delay: .45s; }
+.svc-card:nth-child(3n) .svc-icon { animation-delay: .9s; }
+.svc-card:hover .svc-icon { animation: ccWiggle .4s ease-in-out; }
+
+.brand-mark { animation: ccPulse 4s ease-in-out infinite; }
+.brand:hover .brand-mark { animation: ccWiggle .5s ease-in-out; }
+
+.panel-icon { animation: ccFloat 4s ease-in-out infinite; }
+.panel-card:nth-child(2n) .panel-icon { animation-delay: .6s; }
+.panel-card:nth-child(3n) .panel-icon { animation-delay: 1.2s; }
+
+.hero-stats .stat b { animation: ccGlow 3.2s ease-in-out infinite; }
+
+.feature-card .fc-num { animation: ccPulse 5s ease-in-out infinite; }
+
+.theme-toggle:hover { animation: ccWiggle .4s ease-in-out; }
+.back-top:hover { animation: ccPulse .4s ease-in-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-icon, .brand-mark, .panel-icon, .hero-stats .stat b,
+  .feature-card .fc-num, .theme-toggle, .back-top {
+    animation: none !important;
+  }
+}

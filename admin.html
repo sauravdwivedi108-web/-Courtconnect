@@ -56,18 +56,23 @@
       <!-- LOGIN -->
       <div class="admin-card" id="loginView">
         <h3>Admin login</h3>
-        <p style="color:var(--ink-soft);font-size:.92rem">Enter the admin password to manage content.</p>
+        <p style="color:var(--ink-soft);font-size:.92rem">Enter your admin username and password.</p>
+        <label class="admin-field" for="loginUser">
+          <span style="display:block;font-weight:600;font-size:.88rem;margin-bottom:6px;color:var(--navy-800)">Username / ID</span>
+          <input type="text" id="loginUser" autocomplete="username" placeholder="e.g., admin or anchal">
+        </label>
         <label class="admin-field" for="loginPw">
           <span style="display:block;font-weight:600;font-size:.88rem;margin-bottom:6px;color:var(--navy-800)">Password</span>
           <input type="password" id="loginPw" autocomplete="current-password" placeholder="••••••••">
         </label>
         <button class="btn btn-primary" id="loginBtn" type="button">Login</button>
         <div id="loginMsg"></div>
-        <p class="admin-login-note">Default password: <strong>admin123</strong> (change it after login in Settings).</p>
+        <p class="admin-login-note">Default accounts — <strong>admin / admin123</strong> · <strong>anchal / 55555</strong></p>
       </div>
 
       <!-- PANEL -->
       <div id="panelView" hidden>
+        <p class="admin-login-note whoami" style="text-align:left;margin-top:0"></p>
         <div class="callout callout-navy">
           <strong>Note:</strong> custom content is stored in this browser's storage (localStorage) and appears for visitors on this device. For a public multi-user setup, a real backend would be needed.
         </div>
@@ -160,6 +165,6 @@
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/main.js"></script>
-<script src="assets/js/admin.js"></script>
+<script src="assets/js/admin.js?v=2"></script>
 </body>
 </html>

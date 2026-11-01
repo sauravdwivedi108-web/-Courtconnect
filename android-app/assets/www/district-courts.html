@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>District Court Services — CourtConnect</title>
+<meta name="description" content="Delhi District Court services for lawyers: case status, judges list, causelist, judges on leave, bail roster and duty magistrate roster — for all 11 districts.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230d2140'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23d8b35a' font-family='Georgia'%3E%26%2398770;%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="topbar">
+  <div class="container">
+    <span>Delhi District Courts — Tis Hazari · Patiala House · Karkardooma · Rohini · Saket · Dwarka</span>
+    <span class="tb-links"><a href="index.html">← Home</a></span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html" aria-label="CourtConnect home">
+      <span class="brand-mark" aria-hidden="true">⚖</span>
+      <span class="brand-text"><strong>CourtConnect</strong><span>Legal Services Hub</span></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Menu">☰</button>
+    <nav class="main-nav" id="mainNav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="district-courts.html" class="active">District Courts</a>
+      <a href="high-court.html">High Court</a>
+      <a href="supreme-court.html">Supreme Court</a>
+      <a href="education.html">Education</a>
+      <a href="drafting.html">Drafting Desk</a>
+      <a href="judgments-orders.html" class="nav-cta">Judgments &amp; Orders</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> / District Courts</nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">For lawyers · for litigants</span>
+      <h1>District Court Services</h1>
+      <p class="lead">Six daily-use services across all 11 districts of Delhi. Case-status and cause-list searches run on the national eCourts portal; district-specific lists (judges, on-leave, rosters) open the official website of the district you select.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="callout callout-navy">
+        <strong>Quick tip:</strong> the same district website also hosts case status, cause lists, court orders and video-conference links — choose any district below whenever a card asks you to.
+      </div>
+
+      <div class="grid grid-3" id="districtServices">
+        <!-- Case Status -->
+        <article class="svc-card fade-up">
+          <span class="svc-icon" aria-hidden="true">⚖️</span>
+          <h3>Case Status</h3>
+          <p>Track any case in Delhi's district courts by CNR, case number, FIR, party or advocate name — on the national eCourts portal.</p>
+          <div class="card-actions">
+            <a class="btn btn-navy btn-sm" href="https://services.ecourts.gov.in/ecourtindia_v6/?p=casestatus%2Findex" target="_blank" rel="noopener">Open eCourts <span class="icon-ext"></span></a>
+          </div>
+        </article>
+
+        <!-- Judges List -->
+        <article class="svc-card fade-up">
+          <span class="svc-icon" aria-hidden="true">🧑‍⚖️</span>
+          <h3>Judges List</h3>
+          <p>Current judicial officers in every district — Principal District &amp; Sessions Judge, District Judges, ASJs and Chief/Additional Chief Judicial Magistrates with room numbers.</p>
+          <div class="card-actions">
+            <button class="btn btn-outline btn-sm" data-district data-title="Judges List" data-path="/list-of-judges" data-hint="Opens the official List of Judges of the district you choose.">Choose district…</button>
+          </div>
+        </article>
+
+        <!-- Causelist -->
+        <article class="svc-card fade-up">
+          <span class="svc-icon" aria-hidden="true">📋</span>
+          <h3>Causelist</h3>
+          <p>Day-wise cause lists of the Delhi district courts — via the national eCourts gateway or your district court's own page.</p>
+          <div class="card-actions">
+            <a class="btn btn-navy btn-sm" href="https://services.ecourts.gov.in/ecourtindia_v6/" target="_blank" rel="noopener">Open eCourts <span class="icon-ext"></span></a>
+            <button class="btn btn-outline btn-sm" data-district data-title="Causelist" data-path="" data-hint="Opens the district website where the daily cause list is published.">Choose district…</button>
+          </div>
+        </article>
+
+        <!-- Judges on Leave -->
+        <article class="svc-card fade-up">
+          <span class="svc-icon" aria-hidden="true">🌴</span>
+          <h3>Judges on Leave</h3>
+          <p>Which judicial officers are on leave, from when to when, and the nature of leave — updated by each district court.</p>
+          <div class="card-actions">
+            <button class="btn btn-outline btn-sm" data-district data-title="Judges on Leave" data-path="/judges-on-leave/" data-hint="Opens the official 'Judges on Leave' page of the district you choose.">Choose district…</button>
+          </div>
+        </article>
+
+        <!-- Bail Roster -->
+        <article class="svc-card fade-up">
+          <span class="svc-icon" aria-hidden="true">🔒</span>
+          <h3>Bail Roster</h3>
+          <p>Bail duty rosters and bail-matter cause lists notified by district courts — usually issued with the monthly duty rosters.</p>
+          <div class="card-actions">
+            <button class="btn btn-outline btn-sm" data-district data-title="Bail Roster" data-path="/duty-magistrate" data-hint="Bail rosters are published under each district's Duty/Roster section. Choose a district to open it.">Choose district…</button>
+          </div>
+        </article>
+
+        <!-- Duty Magistrate Roster -->
+        <article class="svc-card fade-up">
+          <span class="svc-icon" aria-hidden="true">🕘</span>
+          <h3>Duty Magistrate Roster</h3>
+          <p>Monthly duty rosters of Judicial Magistrates First Class — regular, evening, weekend-traffic and jail duty rosters.</p>
+          <div class="card-actions">
+            <button class="btn btn-outline btn-sm" data-district data-title="Duty Magistrate Roster" data-path="/duty-magistrate" data-hint="Opens the official Duty Magistrate page of the district you choose.">Choose district…</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="section-head" style="margin-top:56px">
+        <span class="eyebrow">All 11 districts</span>
+        <h2>Delhi's district court complexes</h2>
+        <p>Each district maintains its own official website. Pick one to jump straight to the service you need.</p>
+      </div>
+      <div class="grid grid-3" id="districtIndex">
+        <!-- rendered by JS from DISTRICTS -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- District chooser modal -->
+<div class="modal-backdrop" id="districtModal" role="dialog" aria-modal="true" aria-labelledby="dmTitle">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h3 id="dmTitle">Choose your district</h3>
+        <p id="dmHint">Opens the official district court website.</p>
+      </div>
+      <button class="modal-close" id="dmClose" aria-label="Close dialog">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="district-list" id="dmList"></div>
+      <p class="disclaimer" style="margin-top:14px">Official eCourts district websites (NIC). If one district site is temporarily unreachable, use the <a href="https://delhidistrictcourts.nic.in/" target="_blank" rel="noopener">Delhi District Courts portal <span class="icon-ext"></span></a>.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer" id="siteFooter"></footer>
+<button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var host = document.getElementById("districtIndex");
+  if (host && typeof DISTRICTS !== "undefined") {
+    host.innerHTML = DISTRICTS.map(function (d) {
+      return '<a class="svc-card" href="' + d.url + '" target="_blank" rel="noopener" style="text-decoration:none">' +
+        '<span class="svc-icon" aria-hidden="true">🏛️</span>' +
+        '<h3>' + d.name + '</h3>' +
+        '<p>' + d.complex + ' Courts — official website. Case status, cause list, orders, judges &amp; rosters.</p>' +
+        '<span class="btn btn-outline btn-sm">Visit ' + d.name + ' <span class="icon-ext"></span></span>' +
+      '</a>';
+    }).join("");
+  }
+});
+</script>
+</body>
+</html>

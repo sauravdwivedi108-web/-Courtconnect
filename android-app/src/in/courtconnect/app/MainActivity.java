@@ -47,7 +47,12 @@ public class MainActivity extends Activity {
         s.setLoadWithOverviewMode(true);
         s.setUseWideViewPort(true);
         s.setSupportZoom(false);
+        /* Load the website bundled inside the app – works fully offline. */
         s.setCacheMode(WebSettings.LOAD_DEFAULT);
+        s.setAllowContentAccess(true);
+        s.setAllowFileAccess(true);
+        s.setAllowFileAccessFromFileURLs(true);
+        s.setAllowUniversalAccessFromFileURLs(true);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -74,8 +79,8 @@ public class MainActivity extends Activity {
             }
         });
 
-        String url = getString(R.string.app_url);
-        webView.loadUrl(url);
+        /* Bundled offline copy (primary). */
+        webView.loadUrl("file:///android_asset/www/index.html");
     }
 
     @Override
