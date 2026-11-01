@@ -50,13 +50,29 @@
   <!-- Hero -->
   <section class="hero">
     <div class="container">
-      <span class="eyebrow">CourtConnect</span>
-      <h1>The Modern Lawyer's<br><span class="accent">Starting Point.</span></h1>
-      <p class="lead">A premium toolkit for modern legal minds — navigating courts, drafts, and cases with confidence. Official links to Delhi District Courts, Delhi High Court and Supreme Court services, plus a full education hub for judicial-services aspirants.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="district-courts.html">Court Services</a>
-        <a class="btn btn-light" href="download.html">Get the App</a>
-        <a class="btn btn-outline" href="education.html" style="border-color:rgba(255,255,255,.35);color:#fff">Education Area</a>
+      <div class="hero-copy">
+        <span class="eyebrow">CourtConnect</span>
+        <h1>The Modern Lawyer's<br><span class="accent">Starting Point.</span></h1>
+        <p class="lead">A premium toolkit for modern legal minds — navigating courts, drafts, and cases with confidence. Official links to Delhi District Courts, Delhi High Court and Supreme Court services, plus a full education hub for judicial-services aspirants.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="district-courts.html">Court Services</a>
+          <a class="btn btn-light" href="download.html">Get the App</a>
+          <a class="btn btn-outline" href="education.html" style="border-color:rgba(255,255,255,.35);color:#fff">Education Area</a>
+        </div>
+
+        <div class="hero-search" role="search">
+          <span aria-hidden="true" style="color:var(--gold-300)">🔍</span>
+          <input type="search" id="quickSearchInput" placeholder="Search for cases, drafts, or Bare Acts…" aria-label="Search services">
+          <button class="btn btn-primary btn-sm" type="submit" onclick="document.getElementById('quickSearchInput').focus()">Search</button>
+        </div>
+        <div class="quick-search-results" id="quickSearchResults" aria-live="polite"></div>
+
+        <div class="hero-stats">
+          <div class="stat"><b>25</b><span>Official portals linked</span></div>
+          <div class="stat"><b>11</b><span>Delhi district courts</span></div>
+          <div class="stat"><b>30+</b><span>Landmark judgments</span></div>
+          <div class="stat"><b>4</b><span>Judicial-services stages</span></div>
+        </div>
       </div>
 
       <div class="hero-visual" id="heroVisual" aria-hidden="true">
@@ -64,20 +80,6 @@
           <div class="hv-slide active n1"><img src="assets/hero/1_29226.png" alt=""></div>
           <div class="hv-slide n2"><img src="assets/hero/2_2202_m01_i018_n006.png" alt=""></div>
         </div>
-      </div>
-
-      <div class="hero-search" role="search">
-        <span aria-hidden="true" style="color:var(--gold-300)">🔍</span>
-        <input type="search" id="quickSearchInput" placeholder="Search for cases, drafts, or Bare Acts…" aria-label="Search services">
-        <button class="btn btn-primary btn-sm" type="submit" onclick="document.getElementById('quickSearchInput').focus()">Search</button>
-      </div>
-      <div class="quick-search-results" id="quickSearchResults" aria-live="polite"></div>
-
-      <div class="hero-stats">
-        <div class="stat"><b>25</b><span>Official portals linked</span></div>
-        <div class="stat"><b>11</b><span>Delhi district courts</span></div>
-        <div class="stat"><b>30+</b><span>Landmark judgments</span></div>
-        <div class="stat"><b>4</b><span>Judicial-services stages</span></div>
       </div>
     </div>
   </section>
