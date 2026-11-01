@@ -291,24 +291,32 @@ function initPwa() {
   }
 }
 
-/* ---------- Hero interactive visual: mouse parallax ---------- */
+/* ---------- Hero interactive visual: auto-rotate + mouse parallax ---------- */
 function initHeroVisual() {
   const visual = document.getElementById("heroVisual");
   if (!visual || typeof window.matchMedia === "undefined") return;
   if (window.matchMedia("(max-width: 820px)").matches) return;
 
-  const layers = Array.from(visual.querySelectorAll(".hv-inner"));
-  const depths = [22, 46, 80]; /* forward depth per layer */
+  const stage = document.getElementById("hvStage") || visual.querySelector(".hv-stage");
+  const slides = Array.from(visual.querySelectorAll(".hv-slide"));
+  if (!stage || slides.length < 2) return;
+
+  let current = 0;
+  const INTERVAL = 4200;
+
+  /* auto-rotate with crossfade */
+  setInterval(() => {
+    slides[current].classList.remove("active");
+    current = (current + 1) % slides.length;
+    slides[current].classList.add("active");
+  }, INTERVAL);
+
+  /* mouse parallax on the whole stack */
   let tx = 0, ty = 0, targetX = 0, targetY = 0, ticking = false;
 
   function apply() {
-    layers.forEach((el, i) => {
-      const d = depths[i];
-      const rotateY = targetX * 7 * (d / 80);
-      const rotateX = -targetY * 5 * (d / 80);
-      el.style.transform =
-        `translate3d(${tx * d}px, ${ty * d * 0.7}px, 0) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-    });
+    stage.style.transform =
+      `translate3d(${tx * 34}px, ${ty * 22}px, 0) rotateY(${targetX * 6}deg) rotateX(${-targetY * 5}deg)`;
   }
 
   function tick() {
@@ -332,8 +340,8 @@ function initHeroVisual() {
   if (hero) {
     hero.addEventListener("mousemove", (e) => {
       const r = hero.getBoundingClientRect();
-      targetX = ((e.clientX - r.left) / r.width - 0.5) * 2;   /* -1..1 */
-      targetY = ((e.clientY - r.top) / r.height - 0.5) * 2;  /* -1..1 */
+      targetX = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      targetY = ((e.clientY - r.top) / r.height - 0.5) * 2;
       start();
     });
     hero.addEventListener("mouseleave", () => {
