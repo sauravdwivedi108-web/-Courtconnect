@@ -291,6 +291,65 @@ function initPwa() {
   }
 }
 
+/* ---------- iOS app: "Add to Home Screen" prompt + Downloads-page button ---------- */
+const IOS_HINT_KEY = "cc-ios-hint-dismissed";
+
+function isIos() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); /* iPadOS reports as Mac */
+}
+
+function isStandalone() {
+  return window.navigator.standalone === true ||
+    (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
+}
+
+function showIosHint(force) {
+  if (document.getElementById("iosHint")) return;
+  try { if (!force && localStorage.getItem(IOS_HINT_KEY)) return; } catch (e) { /* noop */ }
+  const hint = document.createElement("div");
+  hint.className = "ios-hint";
+  hint.id = "iosHint";
+  hint.setAttribute("role", "dialog");
+  hint.setAttribute("aria-label", "Install CourtConnect on your iPhone or iPad");
+  hint.innerHTML =
+    '<img src="assets/icons/apple-touch-icon.png" alt="" width="44" height="44">' +
+    '<div><strong>Install CourtConnect</strong>' +
+    '<span>Tap <b class="ios-share" aria-label="Share">⬆︎</b> Share, then <b>“Add to Home Screen”</b>.</span></div>' +
+    '<button type="button" class="ios-hint-close" aria-label="Dismiss">✕</button>';
+  hint.querySelector(".ios-hint-close").addEventListener("click", () => {
+    hint.remove();
+    try { localStorage.setItem(IOS_HINT_KEY, "1"); } catch (e) { /* noop */ }
+  });
+  document.body.appendChild(hint);
+}
+
+function initIosInstall() {
+  if (isIos() && !isStandalone()) {
+    showIosHint(false);
+  }
+  const btn = document.getElementById("iosInstallBtn");
+  const note = document.getElementById("iosInstallNote");
+  if (!btn || !note) return;
+  btn.addEventListener("click", () => {
+    note.hidden = false;
+    if (isStandalone()) {
+      note.textContent = "You're already using the installed CourtConnect app.";
+    } else if (isIos()) {
+      showIosHint(true);
+      note.textContent = "Tap the Share button in Safari's toolbar, then choose “Add to Home Screen”.";
+    } else {
+      const url = location.href.split("#")[0];
+      const done = () => { note.textContent = "Link copied — open it in Safari on your iPhone or iPad, then follow the steps above."; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done).catch(() => { note.textContent = "Open " + url + " in Safari on your iPhone or iPad, then follow the steps above."; });
+      } else {
+        note.textContent = "Open " + url + " in Safari on your iPhone or iPad, then follow the steps above.";
+      }
+    }
+  });
+}
+
 /* ---------- Hero interactive visual: auto-rotate + mouse parallax ---------- */
 function initHeroVisual() {
   const visual = document.getElementById("heroVisual");
@@ -363,6 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   renderCustomTemplates();
   initPwa();
+  initIosInstall();
   initHeroVisual();
 });
 function initQuickSearch() {

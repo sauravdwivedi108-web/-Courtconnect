@@ -1,5 +1,5 @@
 /* CourtConnect service worker — offline-first cache */
-const CACHE = "courtconnect-v2";
+const CACHE = "courtconnect-v3";
 const CORE = [
   "./",
   "./index.html",
@@ -22,7 +22,8 @@ const CORE = [
   "./assets/js/admin.js",
   "./assets/js/drafts-catalog.js",
   "./assets/icons/icon-192.png",
-  "./assets/icons/icon-512.png"
+  "./assets/icons/icon-512.png",
+  "./assets/icons/apple-touch-icon.png"
 ];
 
 self.addEventListener("install", (event) => {

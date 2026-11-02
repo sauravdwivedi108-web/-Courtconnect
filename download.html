@@ -10,13 +10,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0d2140">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CourtConnect">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <div class="topbar">
   <div class="container">
-    <span>Take CourtConnect with you — Android app &amp; offline ISO</span>
+    <span>Take CourtConnect with you — Android app, iPhone &amp; iPad app, offline ISO</span>
     <span class="tb-links"><a href="index.html">← Home</a></span>
   </div>
 </div>
@@ -49,28 +56,44 @@
     <div class="container">
       <span class="eyebrow">Get the app</span>
       <h1>Downloads</h1>
-      <p class="lead">CourtConnect is also available as an Android app and as an offline ISO — so the whole legal toolkit works even without the internet.</p>
+      <p class="lead">CourtConnect is available as an Android app, an iPhone &amp; iPad app and an offline ISO — so the whole legal toolkit works even without the internet.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="grid grid-2">
+      <div class="grid grid-3">
 
-        <article class="svc-card fade-up">
+        <article class="svc-card fade-up" id="android">
           <span class="svc-icon" aria-hidden="true">🤖</span>
           <h3>Android App (APK)</h3>
-          <p>Native-feeling Android app (WebView) that loads CourtConnect — works online with offline caching for the core pages. Version 1.0.</p>
+          <p>Android app with the full CourtConnect site bundled inside — opens instantly and works completely offline. Official court links open in your browser. Version 1.2.</p>
           <ul class="tag-list" style="margin-bottom:14px">
-            <li><span class="t-tag">File</span>courtconnect-v1.1.apk</li>
-            <li><span class="t-tag">Size</span>~1.8 MB</li>
+            <li><span class="t-tag">File</span>courtconnect-v1.2.apk</li>
+            <li><span class="t-tag">Size</span>~4.3 MB</li>
             <li><span class="t-tag">Works</span>Offline — full site bundled inside the app</li>
-            <li><span class="t-tag">Requires</span>Android 7.0+ (API 24+)</li>
+            <li><span class="t-tag">Requires</span>Android 7.0+ (API 24+), incl. Android 14, 15 &amp; 16</li>
             <li><span class="t-tag">Install</span>Allow "install from unknown sources" when prompted</li>
           </ul>
           <div class="card-actions">
-            <a class="btn btn-primary" href="downloads/courtconnect-v1.1.apk" download>⬇ Download APK</a>
+            <a class="btn btn-primary" href="downloads/courtconnect-v1.2.apk" download>⬇ Download APK</a>
           </div>
+        </article>
+
+        <article class="svc-card fade-up" id="ios">
+          <span class="svc-icon" aria-hidden="true">🍎</span>
+          <h3>iPhone &amp; iPad (iOS)</h3>
+          <p>Install CourtConnect from Safari — it gets its own home-screen icon, opens full-screen like a native app and keeps the core pages for offline use. No App Store needed.</p>
+          <ul class="tag-list" style="margin-bottom:14px">
+            <li><span class="t-tag">Step 1</span><span>Open this site in <strong>Safari</strong> on your iPhone or iPad</span></li>
+            <li><span class="t-tag">Step 2</span><span>Tap the <strong>Share</strong> button (square with ↑ arrow)</span></li>
+            <li><span class="t-tag">Step 3</span><span>Choose <strong>“Add to Home Screen”</strong>, then tap <strong>Add</strong></span></li>
+            <li><span class="t-tag">Requires</span>iPhone or iPad with Safari (iOS / iPadOS 13+)</li>
+          </ul>
+          <div class="card-actions">
+            <button class="btn btn-primary" type="button" id="iosInstallBtn">📲 Install on iPhone / iPad</button>
+          </div>
+          <p class="ios-install-note" id="iosInstallNote" aria-live="polite" hidden></p>
         </article>
 
         <article class="svc-card fade-up">
@@ -81,7 +104,7 @@
             <li><span class="t-tag">File</span>courtconnect-offline.iso</li>
             <li><span class="t-tag">Size</span>~15 MB</li>
             <li><span class="t-tag">Use</span>Burn to DVD / write to USB (Ventoy, Rufus) / attach to a VM</li>
-            <li><span class="t-tag">Boot</span>Boots to console; open <strong>http://localhost:8080</strong> in the browser</li>
+            <li><span class="t-tag">Boot</span><span>Boots to console; open <strong>http://localhost:8080</strong> in the browser</span></li>
           </ul>
           <div class="card-actions">
             <a class="btn btn-primary" href="downloads/courtconnect-offline.iso" download>⬇ Download ISO</a>
@@ -90,7 +113,7 @@
       </div>
 
       <div class="callout callout-gold" style="margin-top:36px">
-        <strong>No downloads needed?</strong> CourtConnect is also an installable web app — on Android Chrome, open the site, tap the menu ⋮ → <em>“Add to Home screen”</em>. You'll get an app icon without any APK.
+        <strong>No downloads needed?</strong> CourtConnect is also an installable web app — on Android Chrome, open the site, tap the menu ⋮ → <em>“Add to Home screen”</em>; on iPhone / iPad, use Safari's Share → <em>“Add to Home Screen”</em>. You'll get an app icon without any APK.
       </div>
     </div>
   </section>

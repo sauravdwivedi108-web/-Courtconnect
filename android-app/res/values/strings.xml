@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CourtConnect</string>
-    <!-- Bundled offline app – no network needed. -->
-    <string name="app_url">file:///android_asset/www/index.html</string>
+    <!-- The site is bundled in the app; original draft files (drafts-library/) and downloads/ are fetched from here. -->
+    <string name="site_url">https://courtconnect-9egi-helpmakemyedit-5401.vercel.app</string>
 </resources>
