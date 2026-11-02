@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.courtconnect.app"
-    android:versionCode="3"
-    android:versionName="1.2.1">
+    android:versionCode="4"
+    android:versionName="1.2.2">
 
-    <!-- Android 14+ refuses to install apps that target below API 23; without this the target was API 1. -->
+    <!-- Android 14+ refuses to install apps that target below API 23/24; without this the target was API 1.
+         minSdk 21 (Android 5.0) also makes apksigner add the v1 signature older installers expect. -->
     <uses-sdk
-        android:minSdkVersion="24"
+        android:minSdkVersion="21"
         android:targetSdkVersion="34" />
 
     <uses-permission android:name="android.permission.INTERNET" />

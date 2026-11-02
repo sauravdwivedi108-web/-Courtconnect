@@ -4,7 +4,7 @@
 #   powershell -File tools/build-apk.ps1 `
 #       -JdkDir C:\...\jdk-17 `
 #       -SdkDir C:\...\Android\Sdk `
-#       -OutApk downloads\courtconnect-v1.2.1.apk
+#       -OutApk downloads\courtconnect-v1.2.2.apk
 #
 # The current website (root *.html, manifest, assets/) is copied into
 # android-app/assets/www and bundled, so the app works fully offline.
@@ -17,7 +17,7 @@
 param(
   [string]$JdkDir = $env:CC_JDK,
   [string]$SdkDir = $(if ($env:CC_SDK) { $env:CC_SDK } else { Join-Path $env:LOCALAPPDATA "Android\Sdk" }),
-  [string]$OutApk = "downloads/courtconnect-v1.2.1.apk",
+  [string]$OutApk = "downloads/courtconnect-v1.2.2.apk",
   [string]$KeyStore = $(if ($env:CC_KEYSTORE) { $env:CC_KEYSTORE } else { Join-Path $env:USERPROFILE ".courtconnect\courtconnect.jks" }),
   [string]$KeyPass = $(if ($env:CC_KEYSTORE_PASS) { $env:CC_KEYSTORE_PASS } else { "courtconnect" })
 )
@@ -94,7 +94,7 @@ $Sources += @(Get-ChildItem $Gen -Recurse -Filter *.java | ForEach-Object FullNa
 Assert-Ok "javac"
 
 # 4) dex
-& $d8 --release --min-api 24 --lib $AndroidJar --output $Work (Get-ChildItem $Classes -Recurse -Filter *.class | ForEach-Object FullName)
+& $d8 --release --min-api 21 --lib $AndroidJar --output $Work (Get-ChildItem $Classes -Recurse -Filter *.class | ForEach-Object FullName)
 Assert-Ok "d8"
 
 # 5) add classes.dex + the bundled site (assets/www/...) to the apk

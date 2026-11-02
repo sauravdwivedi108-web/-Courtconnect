@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -154,13 +155,16 @@ public class MainActivity extends Activity {
         });
 
         /* Service-worker requests bypass WebViewClient; serve them from the bundle too
-           (sw.js itself is 404'd, so the app never installs a stale offline cache). */
-        ServiceWorkerController.getInstance().setServiceWorkerClient(new ServiceWorkerClient() {
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebResourceRequest request) {
-                return serveAsset(request.getUrl());
-            }
-        });
+           (sw.js itself is 404'd, so the app never installs a stale offline cache).
+           Android 5/6 have no ServiceWorkerController; sw.js can't load there either. */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            ServiceWorkerController.getInstance().setServiceWorkerClient(new ServiceWorkerClient() {
+                @Override
+                public WebResourceResponse shouldInterceptRequest(WebResourceRequest request) {
+                    return serveAsset(request.getUrl());
+                }
+            });
+        }
 
         if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState);
