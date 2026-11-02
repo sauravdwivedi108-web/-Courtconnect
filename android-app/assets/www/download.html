@@ -62,32 +62,36 @@
 
   <section class="section">
     <div class="container">
-      <div class="grid grid-3">
+      <div class="grid grid-3" id="appCards">
 
         <article class="svc-card fade-up" id="android">
           <span class="svc-icon" aria-hidden="true">🤖</span>
           <h3>Android App (APK)</h3>
-          <p>Android app with the full CourtConnect site bundled inside — opens instantly and works completely offline. Official court links open in your browser. Version 1.2.</p>
+          <p>Android app with the full CourtConnect site bundled inside — opens instantly and works completely offline. Official court links open in your browser. Version 1.2.1.</p>
+          <div class="callout callout-navy" id="apkInAppNote" style="margin:0 0 14px" hidden><strong>Open this page in Chrome first.</strong> Apps like WhatsApp, Instagram and Facebook can't install APKs from their built-in browser — tap <strong>⋮</strong> → <strong>Open in Chrome</strong>.</div>
           <ul class="tag-list" style="margin-bottom:14px">
-            <li><span class="t-tag">File</span>courtconnect-v1.2.apk</li>
-            <li><span class="t-tag">Size</span>~4.3 MB</li>
-            <li><span class="t-tag">Works</span>Offline — full site bundled inside the app</li>
+            <li><span class="t-tag">File</span>courtconnect-v1.2.1.apk · ~4.1 MB</li>
             <li><span class="t-tag">Requires</span>Android 7.0+ (API 24+), incl. Android 14, 15 &amp; 16</li>
-            <li><span class="t-tag">Install</span>Allow "install from unknown sources" when prompted</li>
+            <li><span class="t-tag">Step 1</span><span>Tap <strong>Download APK</strong>. If Chrome warns about the file, tap <strong>Download anyway</strong></span></li>
+            <li><span class="t-tag">Step 2</span><span>Open the downloaded file. When asked, allow <strong>“Install unknown apps”</strong> for Chrome, then go back</span></li>
+            <li><span class="t-tag">Step 3</span><span>Tap <strong>Install</strong>. If Play Protect warns, tap <strong>More details → Install anyway</strong></span></li>
           </ul>
-          <div class="card-actions">
-            <a class="btn btn-primary" href="downloads/courtconnect-v1.2.apk" download>⬇ Download APK</a>
+          <div class="callout callout-gold" style="margin:0 0 14px"><strong>Had an older CourtConnect app?</strong> Uninstall it first — the new version can't install over it (you'd see “App not installed”).</div>
+          <div class="card-actions" id="apkActions">
+            <a class="btn btn-primary" href="downloads/courtconnect-v1.2.1.apk" download>⬇ Download APK</a>
           </div>
+          <div class="callout callout-navy" id="apkIosNote" style="margin:0" hidden>📱 <strong>This file is for Android phones only.</strong> On iPhone or iPad, follow the iPhone &amp; iPad steps above — no download needed.</div>
         </article>
 
         <article class="svc-card fade-up" id="ios">
           <span class="svc-icon" aria-hidden="true">🍎</span>
           <h3>iPhone &amp; iPad (iOS)</h3>
           <p>Install CourtConnect from Safari — it gets its own home-screen icon, opens full-screen like a native app and keeps the core pages for offline use. No App Store needed.</p>
+          <div class="callout callout-navy" id="iosInAppNote" style="margin:0 0 14px" hidden><strong>Open this page in Safari first.</strong> Apps like WhatsApp, Instagram and Gmail can't add it to your Home Screen — tap <strong>⋯</strong> or the compass icon → <strong>Open in Safari</strong>.</div>
           <ul class="tag-list" style="margin-bottom:14px">
-            <li><span class="t-tag">Step 1</span><span>Open this site in <strong>Safari</strong> on your iPhone or iPad</span></li>
-            <li><span class="t-tag">Step 2</span><span>Tap the <strong>Share</strong> button (square with ↑ arrow)</span></li>
-            <li><span class="t-tag">Step 3</span><span>Choose <strong>“Add to Home Screen”</strong>, then tap <strong>Add</strong></span></li>
+            <li><span class="t-tag">Step 1</span><span>Open this page in <strong>Safari</strong> (not inside WhatsApp, Instagram or Gmail)</span></li>
+            <li><span class="t-tag">Step 2</span><span>Tap <strong>Share</strong> (square with ↑ arrow) — at the bottom on iPhone, or inside the <strong>⋯</strong> menu on newer iPhones; top-right on iPad</span></li>
+            <li><span class="t-tag">Step 3</span><span>Scroll down, choose <strong>“Add to Home Screen”</strong>, then tap <strong>Add</strong></span></li>
             <li><span class="t-tag">Requires</span>iPhone or iPad with Safari (iOS / iPadOS 13+)</li>
           </ul>
           <div class="card-actions">

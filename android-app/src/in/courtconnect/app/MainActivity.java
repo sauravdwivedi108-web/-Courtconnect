@@ -99,7 +99,20 @@ public class MainActivity extends Activity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                return serveAsset(request.getUrl());
+                final Uri uri = request.getUrl();
+                if (isAppUrl(uri) && isLiveSiteFile(uri)) {
+                    /* <a download> links reach here, not shouldOverrideUrlLoading: hand the
+                       file to the browser (live site) and end this request quietly. */
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            openExternally(uri);
+                        }
+                    });
+                    return new WebResourceResponse("text/plain", "UTF-8", 204, "No Content",
+                            null, new ByteArrayInputStream(new byte[0]));
+                }
+                return serveAsset(uri);
             }
 
             @Override

@@ -574,7 +574,7 @@ tbody tr:hover td { background: #faf5e8; }
 }
 .draft-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--gold-400); }
 .draft-title { font-weight: 600; color: var(--navy-800); font-size: .92rem; line-height: 1.35; }
-.draft-meta { font-size: .78rem; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.draft-meta { display: block; max-width: 100%; font-size: .78rem; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 [data-theme="dark"] .draft-title { color: #e0e8f5; }
 
 /* viewer modal */

@@ -4,7 +4,7 @@
 #   powershell -File tools/build-apk.ps1 `
 #       -JdkDir C:\...\jdk-17 `
 #       -SdkDir C:\...\Android\Sdk `
-#       -OutApk downloads\courtconnect-v1.2.apk
+#       -OutApk downloads\courtconnect-v1.2.1.apk
 #
 # The current website (root *.html, manifest, assets/) is copied into
 # android-app/assets/www and bundled, so the app works fully offline.
@@ -17,7 +17,7 @@
 param(
   [string]$JdkDir = $env:CC_JDK,
   [string]$SdkDir = $(if ($env:CC_SDK) { $env:CC_SDK } else { Join-Path $env:LOCALAPPDATA "Android\Sdk" }),
-  [string]$OutApk = "downloads/courtconnect-v1.2.apk",
+  [string]$OutApk = "downloads/courtconnect-v1.2.1.apk",
   [string]$KeyStore = $(if ($env:CC_KEYSTORE) { $env:CC_KEYSTORE } else { Join-Path $env:USERPROFILE ".courtconnect\courtconnect.jks" }),
   [string]$KeyPass = $(if ($env:CC_KEYSTORE_PASS) { $env:CC_KEYSTORE_PASS } else { "courtconnect" })
 )
@@ -72,7 +72,8 @@ Copy-Item -Recurse (Join-Path $Root "assets") (Join-Path $Www "assets")
 & $aapt2 compile --dir (Join-Path $App "res") -o (Join-Path $Work "compiled.flata")
 Assert-Ok "aapt2 compile"
 
-# 2) link resources + manifest + assets (-A puts the site at assets/www/ inside the APK)
+# 2) link resources + manifest (assets are added in step 5: aapt2 -A on Windows writes
+#    "assets/www\index.html" with backslashes, which Android cannot open)
 $Gen = Join-Path $Work "gen"
 New-Item -ItemType Directory -Force -Path $Gen | Out-Null
 & $aapt2 link `
@@ -80,7 +81,6 @@ New-Item -ItemType Directory -Force -Path $Gen | Out-Null
   -I $AndroidJar `
   --manifest (Join-Path $App "AndroidManifest.xml") `
   -R (Join-Path $Work "compiled.flata") `
-  -A (Join-Path $App "assets") `
   --java $Gen `
   --auto-add-overlay
 Assert-Ok "aapt2 link"
@@ -97,9 +97,10 @@ Assert-Ok "javac"
 & $d8 --release --min-api 24 --lib $AndroidJar --output $Work (Get-ChildItem $Classes -Recurse -Filter *.class | ForEach-Object FullName)
 Assert-Ok "d8"
 
-# 5) add classes.dex to apk (jar = standard zip tool)
+# 5) add classes.dex + the bundled site (assets/www/...) to the apk
+#    (jar = standard zip tool; it always writes "/" path separators)
 Push-Location $Work
-& $jar uf base-unsigned.apk classes.dex
+& $jar uf base-unsigned.apk classes.dex -C $App assets
 Pop-Location
 Assert-Ok "jar"
 
@@ -120,6 +121,15 @@ New-Item -ItemType Directory -Force -Path (Split-Path $OutAbs) | Out-Null
 & $sig sign --ks $KeyStore --ks-key-alias courtconnect --ks-pass "pass:$KeyPass" --key-pass "pass:$KeyPass" --out $OutAbs $Aligned
 Assert-Ok "apksigner"
 Remove-Item -Force -ErrorAction SilentlyContinue ($OutAbs + ".idsig")
+
+# 8) check the APK the way Android reads it: the start page must be at exactly
+#    assets/www/index.html and no entry may contain a backslash
+$Entries = @(& (Join-Path $BT "aapt.exe") list $OutAbs)
+Assert-Ok "aapt list"
+if (-not ($Entries -contains "assets/www/index.html") -or ($Entries | Where-Object { $_ -like '*\*' })) {
+  Write-Host "Bad APK layout: assets/www/index.html missing or backslash paths present"
+  exit 1
+}
 
 $size = (Get-Item $OutAbs).Length
 Write-Host "APK ready: $OutAbs ($size bytes)"

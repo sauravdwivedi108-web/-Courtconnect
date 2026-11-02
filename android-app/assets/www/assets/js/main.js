@@ -304,6 +304,18 @@ function isStandalone() {
     (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
 }
 
+/* Built-in browsers of social / mail apps: no "Add to Home Screen", and APK downloads often fail. */
+function isInAppBrowser() {
+  return /FBAN|FBAV|FB_IAB|Instagram|WhatsApp|LinkedInApp|GSA\/|Line\/|Snapchat|Twitter|MicroMessenger|GmailApp/i.test(navigator.userAgent);
+}
+
+function iosInstallHintHtml() {
+  if (isInAppBrowser()) {
+    return 'Open this page in <b>Safari</b> first: tap <b>⋯</b> → <b>Open in Safari</b>. Then Share → <b>“Add to Home Screen”</b>.';
+  }
+  return 'Tap <b class="ios-share" aria-label="Share">⬆︎</b> Share (on newer iPhones it\'s in the <b>⋯</b> menu), then <b>“Add to Home Screen”</b>.';
+}
+
 function showIosHint(force) {
   if (document.getElementById("iosHint")) return;
   try { if (!force && localStorage.getItem(IOS_HINT_KEY)) return; } catch (e) { /* noop */ }
@@ -315,7 +327,7 @@ function showIosHint(force) {
   hint.innerHTML =
     '<img src="assets/icons/apple-touch-icon.png" alt="" width="44" height="44">' +
     '<div><strong>Install CourtConnect</strong>' +
-    '<span>Tap <b class="ios-share" aria-label="Share">⬆︎</b> Share, then <b>“Add to Home Screen”</b>.</span></div>' +
+    '<span>' + iosInstallHintHtml() + '</span></div>' +
     '<button type="button" class="ios-hint-close" aria-label="Dismiss">✕</button>';
   hint.querySelector(".ios-hint-close").addEventListener("click", () => {
     hint.remove();
@@ -324,7 +336,28 @@ function showIosHint(force) {
   document.body.appendChild(hint);
 }
 
+/* Downloads page: put this device's card first and hide what can't work here. */
+function initDownloadsForDevice() {
+  const grid = document.getElementById("appCards");
+  const iosCard = document.getElementById("ios");
+  if (!grid || !iosCard) return;
+  const inApp = isInAppBrowser();
+  if (isIos()) {
+    grid.prepend(iosCard);
+    const apkActions = document.getElementById("apkActions");
+    const apkIosNote = document.getElementById("apkIosNote");
+    if (apkActions) apkActions.style.display = "none";
+    if (apkIosNote) apkIosNote.hidden = false;
+    const iosInAppNote = document.getElementById("iosInAppNote");
+    if (inApp && iosInAppNote) iosInAppNote.hidden = false;
+  } else if (inApp) {
+    const apkInAppNote = document.getElementById("apkInAppNote");
+    if (apkInAppNote) apkInAppNote.hidden = false;
+  }
+}
+
 function initIosInstall() {
+  initDownloadsForDevice();
   if (isIos() && !isStandalone()) {
     showIosHint(false);
   }
@@ -335,9 +368,12 @@ function initIosInstall() {
     note.hidden = false;
     if (isStandalone()) {
       note.textContent = "You're already using the installed CourtConnect app.";
+    } else if (isIos() && isInAppBrowser()) {
+      showIosHint(true);
+      note.textContent = "Open this page in Safari first (tap ⋯ → Open in Safari), then Share → “Add to Home Screen”.";
     } else if (isIos()) {
       showIosHint(true);
-      note.textContent = "Tap the Share button in Safari's toolbar, then choose “Add to Home Screen”.";
+      note.textContent = "Tap Share in Safari (on newer iPhones it's in the ⋯ menu), then choose “Add to Home Screen”.";
     } else {
       const url = location.href.split("#")[0];
       const done = () => { note.textContent = "Link copied — open it in Safari on your iPhone or iPad, then follow the steps above."; };
